@@ -47,7 +47,7 @@ spec:
             #   port: 8080
             tcpSocket:
               port: 8080
-            initialDelaySeconds: 10
+            initialDelaySeconds: 30
             periodSeconds: 5
           livenessProbe:
             # httpGet:
