@@ -60,11 +60,11 @@ spec:
            limits:
              cpu: "300m"
              memory: "800Mi"
-         startupProbe:
-           tcpSocket:
-             port: 3306
-           failureThreshold: 60
-           periodSeconds: 5
+        #  startupProbe:
+        #    tcpSocket:
+        #      port: 3306
+        #    failureThreshold: 60
+        #    periodSeconds: 5
         #  readinessProbe:
         #    tcpSocket:
         #      port: 3306
