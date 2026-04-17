@@ -1,7 +1,16 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: rabbitmq
+  namespace: roboshop
+data:
+  RABBITMQ_DEFAULT_USER: roboshop
+  RABBITMQ_DEFAULT_PASS: roboshop123
+---
 apiVersion: v1  #headless service
 kind: Service
 metadata:
-  name: redis-headless-service
+  name: rabbitmq-headless-service
   namespace: roboshop
 spec:
   # This makes the service "headless"
@@ -9,28 +18,28 @@ spec:
   selector:
     project: roboshop
     tier: db
-    component: redis
+    component: rabbitmq
   ports:
     - protocol: TCP
-      port: 6379
-      targetPort: 6379
+      port: 5672
+      targetPort: 5672
 ---
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: redis
+  name: rabbitmq
   namespace: roboshop
   labels:
     project: roboshop
     tier: db
-    component: redis
+    component: rabbitmq
 spec:
   selector:
     matchLabels:
       project: roboshop
       tier: db
-      component: redis # has to match .spec.template.metadata.labels
-  serviceName: "redis-headless-service"
+      component: rabbitmq # has to match .spec.template.metadata.labels
+  serviceName: "rabbitmq-headless-service"
   replicas: 1 # by default is 1
   minReadySeconds: 10 # by default is 0
   template:
@@ -38,31 +47,39 @@ spec:
       labels:
         project: roboshop
         tier: db
-        component: redis # has to match .spec.selector.matchLabels
+        component: rabbitmq # has to match .spec.selector.matchLabels
     spec:
       terminationGracePeriodSeconds: 10
       containers:
-      - name: redis
-        image: saithota9/redis:1.0.0
+      - name: rabbitmq
+        image: saithota9/rabbitmq:1.0.0
         imagePullPolicy: Always
         resources:
           requests:
-            cpu: "60m"
-            memory: "256Mi"
+            cpu: "15m"
+            memory: "128Mi"
           limits:
-            cpu: "150m"
-            memory: "500Mi"
+            cpu: "75m"
+            memory: "256Mi"
         readinessProbe:
           tcpSocket:
-            port: 6379
-          initialDelaySeconds: 30
+            port: 5672
+          initialDelaySeconds: 60
           periodSeconds: 5
+        livenessProbe:
+          tcpSocket:
+            port: 5672
+          initialDelaySeconds: 60
+          periodSeconds: 10
+        envFrom:
+         - configMapRef:
+             name: rabbitmq
         volumeMounts:
-        - name: redis-volume
-          mountPath: /data
+        - name: rabbitmq-volume
+          mountPath: /var/lib/rabbitmq
   volumeClaimTemplates:
   - metadata:
-      name: redis-volume
+      name: rabbitmq-volume
     spec:
       accessModes: [ "ReadWriteOnce" ]
       storageClassName: my-ebs-sc
@@ -73,19 +90,19 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: redis
+  name: rabbitmq
   namespace: roboshop
   labels:
     project: roboshop
     tier: db
-    component: redis 
+    component: rabbitmq 
 spec:
   selector:
     project: roboshop
     tier: db
-    component: redis 
+    component: rabbitmq 
   type: ClusterIP
   ports:
     - protocol: TCP
-      port: 6379
-      targetPort: 6379
+      port: 5672
+      targetPort: 5672
