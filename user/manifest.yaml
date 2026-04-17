@@ -78,13 +78,13 @@ spec:
       name: cpu
       target:
         type: Utilization
-        averageUtilization: 80  # Target 50% CPU usage
+        averageUtilization: 90  # Target 50% CPU usage
   - type: Resource
     resource:
       name: memory
       target:
         type: Utilization
-        averageUtilization: 80 # Target 70% Memory usage
+        averageUtilization: 90 # Target 70% Memory usage
 ---
 apiVersion: v1
 kind: Service
