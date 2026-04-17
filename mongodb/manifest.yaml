@@ -43,7 +43,7 @@ spec:
       terminationGracePeriodSeconds: 10
       containers:
       - name: mongodb
-        image: rsaithota9/mongodb:1.0.0
+        image: saithota9/mongodb:1.0.0
         imagePullPolicy: Always
         resources:
           requests:
