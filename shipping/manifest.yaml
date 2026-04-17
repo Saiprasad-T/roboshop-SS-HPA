@@ -34,13 +34,13 @@ spec:
         - name: shipping
           image: saithota9/shipping:1.0.0
           imagePullPolicy: Always
-          resources:
-            requests:
-              cpu: "50m"
-              memory: "252Mi"
-            limits:
-              cpu: "150m"
-              memory: "300Mi"
+          # resources:
+          #   requests:
+          #     cpu: "50m"
+          #     memory: "252Mi"
+          #   limits:
+          #     cpu: "150m"
+          #     memory: "300Mi"
           # readinessProbe:
           #   httpGet:
           #     path: /health
