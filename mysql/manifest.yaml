@@ -65,16 +65,16 @@ spec:
              port: 3306
            failureThreshold: 60
            periodSeconds: 5
-         readinessProbe:
-           tcpSocket:
-             port: 3306
-           initialDelaySeconds: 120
-           periodSeconds: 5
-         livenessProbe:
-           tcpSocket:
-             port: 3306
-           initialDelaySeconds: 120
-           periodSeconds: 10
+        #  readinessProbe:
+        #    tcpSocket:
+        #      port: 3306
+        #    initialDelaySeconds: 120
+        #    periodSeconds: 5
+        #  livenessProbe:
+        #    tcpSocket:
+        #      port: 3306
+        #    initialDelaySeconds: 120
+        #    periodSeconds: 10
          envFrom:
            - configMapRef:
               name: mysql
