@@ -70,7 +70,7 @@ spec:
     kind: Deployment
     name: shipping # Must match your Deployment name
   minReplicas: 1
-  maxReplicas: 5
+  maxReplicas: 3
   metrics:
   - type: Resource
     resource:
