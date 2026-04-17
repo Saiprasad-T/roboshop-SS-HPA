@@ -64,12 +64,12 @@ spec:
         readinessProbe:
           tcpSocket:
             port: 5672
-          initialDelaySeconds: 60
+          initialDelaySeconds: 120
           periodSeconds: 5
         livenessProbe:
           tcpSocket:
             port: 5672
-          initialDelaySeconds: 60
+          initialDelaySeconds: 120
           periodSeconds: 10
         envFrom:
          - configMapRef:
